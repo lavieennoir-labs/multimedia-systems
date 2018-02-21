@@ -315,7 +315,7 @@ namespace Lab1
             DrawMark(MarkSize / 2, MaxY - 2 * MarkSize, "y", true, 1.5F);
 
         }
-
+        
         /// <summary>
         ///     Draws mark in the scene in position defined by parameters
         /// </summary>
@@ -356,28 +356,17 @@ namespace Lab1
 
         private float GetMarkSize(float pixelsPerUnit)
         {
-            //if (pixelsPerUnit > 25)
-            //    return 0.25F;
-            //else if (pixelsPerUnit > 15)
-            //    return 0.4F;
-            //else if (pixelsPerUnit > 10)
-            //    return 0.7F;
-            //else if (pixelsPerUnit > 7)
-            //    return 1.1F;
-            //else if (pixelsPerUnit > 5)
-            //    return 1.7F;
-            //else if (pixelsPerUnit > 4)
-            //    return 2.6F;
-            //else if (pixelsPerUnit > 3)
-            //    return 3.6F;
-            //else if (pixelsPerUnit > 2)
-            //    return 4.7F;
-            //else if (pixelsPerUnit > 1)
-            //    return 5.9F;
-            //else
-            //    return 7.2F;
+            // (25, 0.25)
+            // (15, 0.4)
+            // (10, 0.7)
+            // (7, 1.1)
+            // (5, 1.7)
+            // (4, 2.6)
+            // (3, 3.6)
+            // (2, 4.7)
+            // (1, 5.9)
             float scale = (float)(0.1085463 + (7.682735 - 0.1085463) / 
-                (1 + Math.Pow(pixelsPerUnit / 2.270442, 1.677812))); //aproximated curve
+                (1 + Math.Pow(pixelsPerUnit / 2.270442, 1.677812))); //aproximated curve by points given above
             return scale;
         }
     }
