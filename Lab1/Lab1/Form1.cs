@@ -48,7 +48,6 @@ namespace Lab1
                 AxisColor = Color.DarkGray,
                 GridColor = Color.LightGray,
                 MarksColor = Color.FromKnownColor(KnownColor.ControlText),
-                GridStep = 1,
                 MinAvailableX = validator.MinAvailableLimit,
                 MaxAvailableX = validator.MaxAvailableLimit,
                 Function = (x) => (float)(Math.Pow(x, 3) + 3)
