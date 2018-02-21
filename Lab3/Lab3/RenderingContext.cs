@@ -3,6 +3,7 @@ using OpenGLWinControl.OpenGL.Enumerations.GL;
 using OpenGLWinControl.OpenGL.Enumerations.GLUT;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -77,7 +78,26 @@ namespace Lab3
         /// </summary>
         public float GridStep { get; set; }
 
+        /// <summary>
+        ///     Size of axis marks in uints.
+        /// </summary>
         public float MarkSize { get; set; }
+
+        /// <summary>
+        ///     Value of coefitient 'a' in Function.
+        /// </summary>
+        public float FuncCoef { get; set; }
+
+
+        public float rotationAngle;
+        /// <summary>
+        ///     Angle function chart is rotated
+        /// </summary>
+        public float RotationAngle
+        {
+            get => rotationAngle;
+            set => rotationAngle = value % 360;
+        }
 
         /// <summary>
         ///     Set to true to invoke update scene ortho.
@@ -85,9 +105,11 @@ namespace Lab3
         public bool GridResized { get; set; } = false;
 
         /// <summary>
-        ///     Function, that will be drawn
+        ///     Function, that will be drawn.
+        ///     First argment is X.
+        ///     Second argument is A.
         /// </summary>
-        public Func<float, float> Function { get; set; }
+        public Func<float , float, float> Function { get; set; }
 
         //ortho
         public float MinX { get; set; }
@@ -188,7 +210,6 @@ namespace Lab3
             GL.LineWidth(1.0F);
 
             GL.PushMatrix();
-
             GL.Translate(0, MaxY, 0);
             GL.Scale(MarkSize, MarkSize, 0);
 
@@ -255,18 +276,20 @@ namespace Lab3
             float step = 1.0F / vertextesPerUnit;
 
             float y;
-
             GL.LineWidth(2.0F);
+            GL.PushMatrix();
+            GL.Rotate(RotationAngle, 0, 0, 1);
             GL.Begin(BeginMode.LINE_STRIP);
 
             for(float x = MinX; x <=MaxX; x+= step)
             {
-                y = Function(x);
+                y = Function(x, FuncCoef);
                 GL.Color3(GetColor3ByY(y));
                 GL.Vertex2(x, y);
             }
 
             GL.End();
+            GL.PopMatrix();
             GL.LineWidth(1.0F);
         }
 

@@ -28,7 +28,61 @@ namespace Lab3
             {
                 maxX = value;
                 InvokePropertyChanged(new PropertyChangedEventArgs("MaxX"));
+            }
+        }
 
+        private float a;
+        public float A
+        {
+            get { return a; }
+            set
+            {
+                a = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("A"));
+            }
+        }
+
+        private float angle;
+        public float Angle
+        {
+            get { return angle; }
+            set
+            {
+                angle = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("Angle"));
+            }
+        }
+
+        private string intervalError;
+        public string IntervalError
+        {
+            get { return intervalError; }
+            set
+            {
+                intervalError = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("IntervalError"));
+            }
+        }
+
+        private string coefError;
+        public string CoefError
+        {
+            get { return coefError; }
+            set
+            {
+                coefError = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("CoefError"));
+            }
+        }
+
+        private string angleError;
+        public string AngleError
+        {
+            get { return angleError; }
+            set
+            {
+                angleError = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("AngleError"));
             }
         }
 
