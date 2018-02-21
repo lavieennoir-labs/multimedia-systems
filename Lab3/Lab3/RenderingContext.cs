@@ -279,9 +279,11 @@ namespace Lab3
             GL.LineWidth(2.0F);
             GL.PushMatrix();
             GL.Rotate(RotationAngle, 0, 0, 1);
+            //mirror
+            GL.Scale(-1F, 1F, 1F);
             GL.Begin(BeginMode.LINE_STRIP);
 
-            for(float x = MinX; x <=MaxX; x+= step)
+            for(float x = -5 * MaxX; x <= -5 * MinX; x+= step)
             {
                 y = Function(x, FuncCoef);
                 GL.Color3(GetColor3ByY(y));
