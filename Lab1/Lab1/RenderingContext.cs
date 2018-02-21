@@ -110,6 +110,10 @@ namespace Lab1
             //upadte size
             width = contextWidth;
             height = contextHeight;
+            //calculate grid step and  mark size
+            var pixelsPerUnit = width / (MaxX - MinX);
+            GridStep = GetGridStep(pixelsPerUnit);
+            MarkSize = GetMarkSize(pixelsPerUnit);
 
             GL.ClearColor(1, 1, 1, 0);
             GL.MatrixMode(MatrixMode.PROJECTION);
