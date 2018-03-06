@@ -297,6 +297,7 @@
             this.label8.TabIndex = 1;
             this.label8.Text = "Повернути графік:";
             this.toolTip.SetToolTip(this.label8, "Повернути графік навколо центру координат проти годинникової стрілки.");
+            this.label8.Visible = false;
             // 
             // toolTip
             // 
@@ -314,6 +315,7 @@
             this.lblAngle.Size = new System.Drawing.Size(47, 19);
             this.lblAngle.TabIndex = 1;
             this.lblAngle.Text = "α = 0°";
+            this.lblAngle.Visible = false;
             // 
             // label9
             // 
@@ -325,6 +327,7 @@
             this.label9.Size = new System.Drawing.Size(30, 19);
             this.label9.TabIndex = 1;
             this.label9.Text = "α =";
+            this.label9.Visible = false;
             // 
             // tbAngle
             // 
@@ -338,6 +341,7 @@
             this.tbAngle.Name = "tbAngle";
             this.tbAngle.Size = new System.Drawing.Size(100, 15);
             this.tbAngle.TabIndex = 2;
+            this.tbAngle.Visible = false;
             this.tbAngle.TextChanged += new System.EventHandler(this.tbAngle_TextChanged);
             // 
             // pAngleUnderline
@@ -348,6 +352,7 @@
             this.pAngleUnderline.Name = "pAngleUnderline";
             this.pAngleUnderline.Size = new System.Drawing.Size(100, 2);
             this.pAngleUnderline.TabIndex = 4;
+            this.pAngleUnderline.Visible = false;
             // 
             // btnTurn
             // 
@@ -360,6 +365,7 @@
             this.btnTurn.TabIndex = 3;
             this.btnTurn.Text = "Повернути";
             this.btnTurn.UseVisualStyleBackColor = true;
+            this.btnTurn.Visible = false;
             this.btnTurn.Click += new System.EventHandler(this.btnTurn_Click);
             // 
             // Form1

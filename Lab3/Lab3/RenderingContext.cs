@@ -99,6 +99,38 @@ namespace Lab3
             set => rotationAngle = value % 360;
         }
 
+        public float mirroringAngle;
+        /// <summary>
+        ///     Angle function chart is mirrored
+        /// </summary>
+        public float MirroringAngle
+        {
+            get => mirroringAngle;
+            set => mirroringAngle = value % 360;
+        }
+
+        public float rotatePerFrameOZ;
+        /// <summary>
+        ///     Angle chart is rotating every frame around OZ axis
+        /// </summary>
+        public float RotatePerFrameOZ
+        {
+            get => rotatePerFrameOZ;
+            set => rotatePerFrameOZ = value % 360;
+        }
+
+        public float rotatePerFrameOY;
+        /// <summary>
+        ///     Angle chart is rotating every frame around OY axis
+        /// </summary>
+        public float RotatePerFrameOY
+        {
+            get => rotatePerFrameOY;
+            set => rotatePerFrameOY = value % 360;
+        }
+
+        public float ChartFixMultiplier { get; set; } = 100;
+
         /// <summary>
         ///     Set to true to invoke update scene ortho.
         /// </summary>
@@ -144,7 +176,7 @@ namespace Lab3
             GL.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
 
             FitOrtho();
-            GLU.Ortho2D(MinX, MaxX, MinY, MaxY);
+            GL.Ortho(MinX, MaxX, MinY, MaxY, ChartFixMultiplier * MinX, ChartFixMultiplier * MaxX);
         }
 
         public void Render(int contextWidth, int contextHeight)
@@ -161,6 +193,9 @@ namespace Lab3
             DrawAxis();
             DrawFunction();
             DrawMarks();
+
+            RotationAngle += RotatePerFrameOZ;
+            MirroringAngle += RotatePerFrameOY;
         }
 
         public void Resize(int contextWidth, int contextHeight)
@@ -173,7 +208,7 @@ namespace Lab3
             GL.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
 
             FitOrtho();
-            GLU.Ortho2D(MinX, MaxX, MinY, MaxY);
+            GL.Ortho(MinX, MaxX, MinY, MaxY, ChartFixMultiplier * MinX, ChartFixMultiplier * MaxX);
 
             //calculate grid step and mark size
             var pixelsPerUnit = width / (MaxX - MinX);
@@ -272,7 +307,7 @@ namespace Lab3
         /// </summary>
         protected void DrawFunction()
         {
-            int vertextesPerUnit = (int)(64 / (MaxX - MinX) + 2);
+            int vertextesPerUnit = (int)(128 / (MaxX - MinX) + 2);
             float step = 1.0F / vertextesPerUnit;
 
             float y;
@@ -280,11 +315,18 @@ namespace Lab3
             GL.PushMatrix();
             GL.Rotate(RotationAngle, 0, 0, 1);
             //mirror
-            GL.Scale(-1F, 1F, 1F);
+            GL.Rotate(MirroringAngle, 0, 1, 0);
             GL.Begin(BeginMode.LINE_STRIP);
 
-            for(float x = -5 * MaxX; x <= -5 * MinX; x+= step)
+            for(float x = -ChartFixMultiplier * MaxX; x <= -ChartFixMultiplier * MinX; x+= step)
             {
+                //fix zero vertex
+                if(x > 0 && x - step < 0)
+                {
+                    y = Function(0, FuncCoef);
+                    GL.Color3(GetColor3ByY(y));
+                    GL.Vertex2(0, y);
+                }
                 y = Function(x, FuncCoef);
                 GL.Color3(GetColor3ByY(y));
                 GL.Vertex2(x, y);
