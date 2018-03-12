@@ -1,6 +1,7 @@
 ﻿using OpenGLWinControl.OpenGL;
 using OpenGLWinControl.OpenGL.Enumerations.GL;
 using OpenGLWinControl.OpenGL.Enumerations.GLUT;
+using OpenGLWinControl.OpenGL.HeapData;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -105,8 +106,18 @@ namespace Lab1
         int height;
         float heightFactor { get => height / (float)width; }
 
-        public void Init(int contextWidth, int contextHeight)
+        //invoke providers
+        GL glMethod;
+        GLU gluMethod;
+        GLUT glutMethod;
+
+
+        public void Init(GL gl, GLU glu, GLUT glut, int contextWidth, int contextHeight)
         {
+            glMethod = gl;
+            gluMethod = glu;
+            glutMethod = glut;
+
             //upadte size
             width = contextWidth;
             height = contextHeight;
@@ -115,23 +126,27 @@ namespace Lab1
             GridStep = GetGridStep(pixelsPerUnit);
             MarkSize = GetMarkSize(pixelsPerUnit);
 
-            GL.ClearColor(1, 1, 1, 0);
-            GL.MatrixMode(MatrixMode.PROJECTION);
-            GL.LineWidth(2.0F);
+            glMethod.ClearColor(1, 1, 1, 0);
+            glMethod.MatrixMode(MatrixMode.PROJECTION);
+            glMethod.LineWidth(2.0F);
 
-            GL.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
+            glMethod.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
 
             FitOrtho();
-            GLU.Ortho2D(MinX, MaxX, MinY, MaxY);
+            gluMethod.Ortho2D(MinX, MaxX, MinY, MaxY);
         }
 
-        public void Render(int contextWidth, int contextHeight)
+        public void Render(GL gl, GLU glu, GLUT glut, int contextWidth, int contextHeight)
         {
-            GL.Clear(ClearAttributeMask.COLOR_BUFFER_BIT);
+            glMethod = gl;
+            gluMethod = glu;
+            glutMethod = glut;
+
+            glMethod.Clear(ClearAttributeMask.COLOR_BUFFER_BIT);
 
             if (GridResized)
             {
-                Resize(contextWidth, contextHeight);
+                Resize(gl, glu, glut, contextWidth, contextHeight);
                 GridResized = false;
             }
 
@@ -141,17 +156,20 @@ namespace Lab1
             DrawMarks();
         }
 
-        public void Resize(int contextWidth, int contextHeight)
+        public void Resize(GL gl, GLU glu, GLUT glut, int contextWidth, int contextHeight)
         {
+            glMethod = gl;
+            gluMethod = glu;
+            glutMethod = glut;
             //upadte size
             width = contextWidth;
             height = contextHeight;
 
-            GL.LoadIdentity();
-            GL.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
+            glMethod.LoadIdentity();
+            glMethod.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
 
             FitOrtho();
-            GLU.Ortho2D(MinX, MaxX, MinY, MaxY);
+            gluMethod.Ortho2D(MinX, MaxX, MinY, MaxY);
 
             //calculate grid step and  mark size
             var pixelsPerUnit = width / (MaxX - MinX);
@@ -173,77 +191,77 @@ namespace Lab1
         protected void DrawAxis()
         {
 
-            GL.LineWidth(2.0F);
-            GL.Color4(axisColor);
+            glMethod.LineWidth(2.0F);
+            glMethod.Color4(axisColor);
 
-            GL.Begin(BeginMode.LINES);
+            glMethod.Begin(BeginMode.LINES);
             //axis y
-                GL.Vertex2(MinAvailableX, 0);
-                GL.Vertex2(MaxAvailableX, 0);
+                glMethod.Vertex2(MinAvailableX, 0);
+                glMethod.Vertex2(MaxAvailableX, 0);
             //axis x
-                GL.Vertex2(0, MinAvailableY);
-                GL.Vertex2(0, MaxAvailableY); 
-            GL.End();
+                glMethod.Vertex2(0, MinAvailableY);
+                glMethod.Vertex2(0, MaxAvailableY); 
+            glMethod.End();
 
-            GL.LineWidth(1.0F);
+            glMethod.LineWidth(1.0F);
 
-            GL.PushMatrix();
+            glMethod.PushMatrix();
 
-            GL.Translate(0, MaxY, 0);
-            GL.Scale(MarkSize, MarkSize, 0);
+            glMethod.Translate(0, MaxY, 0);
+            glMethod.Scale(MarkSize, MarkSize, 0);
 
-            GL.Begin(BeginMode.TRIANGLES);
+            glMethod.Begin(BeginMode.TRIANGLES);
                 //y
-                GL.Vertex2(0, 0);
-                GL.Vertex2(0.8F, -2);
-                GL.Vertex2(-0.8F, -2);
-            GL.End();
-            GL.PopMatrix();
+                glMethod.Vertex2(0, 0);
+                glMethod.Vertex2(0.8F, -2);
+                glMethod.Vertex2(-0.8F, -2);
+            glMethod.End();
+            glMethod.PopMatrix();
 
-            GL.PushMatrix();
-            GL.Translate(MaxX, 0, 0);
-            GL.Scale(MarkSize, MarkSize, 0);
-            GL.Begin(BeginMode.TRIANGLES);
+            glMethod.PushMatrix();
+            glMethod.Translate(MaxX, 0, 0);
+            glMethod.Scale(MarkSize, MarkSize, 0);
+            glMethod.Begin(BeginMode.TRIANGLES);
                 //x
-                GL.Vertex2(0, 0);
-                GL.Vertex2(-2, 0.8F);
-                GL.Vertex2(-2, -0.8F);
-            GL.End();
-            GL.PopMatrix();
+                glMethod.Vertex2(0, 0);
+                glMethod.Vertex2(-2, 0.8F);
+                glMethod.Vertex2(-2, -0.8F);
+            glMethod.End();
+            glMethod.PopMatrix();
         }
 
         protected void DrawGrid()
         {
-            GL.LineWidth(0.5F);
-            GL.Color4(gridColor);
+            glMethod.LineWidth(0.5F);
+            glMethod.Color4(gridColor);
 
-            GL.Begin(BeginMode.LINES);
+            glMethod.Begin(BeginMode.LINES);
             //vertical lines
             for (float i = GridStep; i < MaxAvailableX; i += GridStep)
             {
-                GL.Vertex2(i, MinAvailableY);
-                GL.Vertex2(i, MaxAvailableY);
+                glMethod.Vertex2(i, MinAvailableY);
+                glMethod.Vertex2(i, MaxAvailableY);
             }
             for (float i = GridStep; i > MinAvailableX; i -= GridStep)
             {
-                GL.Vertex2(i, MinAvailableY);
-                GL.Vertex2(i, MaxAvailableY);
+                glMethod.Vertex2(i, MinAvailableY);
+                glMethod.Vertex2(i, MaxAvailableY);
             }
 
             //horizontal lines
             for (float i = GridStep; i < MaxAvailableY; i += GridStep)
             {
-                GL.Vertex2(MinAvailableX, i);
-                GL.Vertex2(MaxAvailableX, i);
+                glMethod.Vertex2(MinAvailableX, i);
+                glMethod.Vertex2(MaxAvailableX, i);
             }
             for (float i = GridStep; i > MinAvailableY; i -= GridStep)
             {
-                GL.Vertex2(MinAvailableX, i);
-                GL.Vertex2(MaxAvailableX, i);
+                glMethod.Vertex2(MinAvailableX, i);
+                glMethod.Vertex2(MaxAvailableX, i);
             }
-            GL.End();
+            glMethod.End();
 
-            GL.LineWidth(1.0F);
+            glMethod.LineWidth(1.0F);
         }
 
         /// <summary>
@@ -256,18 +274,18 @@ namespace Lab1
 
             float y;
 
-            GL.LineWidth(2.0F);
-            GL.Begin(BeginMode.LINE_STRIP);
+            glMethod.LineWidth(2.0F);
+            glMethod.Begin(BeginMode.LINE_STRIP);
 
             for(float x = MinX; x <=MaxX; x+= step)
             {
                 y = Function(x);
-                GL.Color3(GetColor3ByY(y));
-                GL.Vertex2(x, y);
+                glMethod.Color3(GetColor3ByY(y));
+                glMethod.Vertex2(x, y);
             }
 
-            GL.End();
-            GL.LineWidth(1.0F);
+            glMethod.End();
+            glMethod.LineWidth(1.0F);
         }
 
         /// <summary>
@@ -296,7 +314,7 @@ namespace Lab1
 
         protected void DrawMarks()
         {
-            GL.Color4(marksColor);
+            glMethod.Color4(marksColor);
             
             //horizontal marks
             for (float i = GridStep; i < MaxAvailableX; i += GridStep)
@@ -322,28 +340,28 @@ namespace Lab1
         /// <param name="mark">Value to be drawn.</param>
         private void DrawMark(float x, float y, object mark, bool isAxisName = false, float scale = 1)
         {
-            GL.PushMatrix();
+            glMethod.PushMatrix();
 
             float offset = MarkSize / 3; // used because marks were intersecting with axises
 
             if (isAxisName)
-                GL.Translate(
+                glMethod.Translate(
                  x + offset,
                  y + offset, 0);
             else
-                GL.Translate(
+                glMethod.Translate(
                 x - mark.ToString().Length * MarkSize - offset, 
                 //set vertical marks left from y axis
                 y - MarkSize - offset, 0);
                 //set horisontal marks under x axis
 
-            GL.Scale(0.01, 0.01, 1.0); // 0.01 - scale to 1x1 size
-            GL.Scale(MarkSize * scale, MarkSize * scale, 1.0);
+            glMethod.Scale(0.01, 0.01, 1.0); // 0.01 - scale to 1x1 size
+            glMethod.Scale(MarkSize * scale, MarkSize * scale, 1.0);
 
             foreach (var c in mark.ToString())
-                GLUT.StrokeCharacter(StrokeFont.STROKE_ROMAN, c);
+                glutMethod.StrokeCharacter(StrokeFont.STROKE_ROMAN, c);
 
-            GL.PopMatrix();
+            glMethod.PopMatrix();
         }
         #endregion
 
@@ -379,6 +397,21 @@ namespace Lab1
             float scale = (float)(0.1085463 + (7.682735 - 0.1085463) / 
                 (1 + Math.Pow(pixelsPerUnit / 2.270442, 1.677812))); //aproximated curve
             return scale;
+        }
+
+        public GLHeapData SetupGLDataLimits()
+        {
+            return new GLHeapData();
+        }
+
+        public GLUHeapData SetupGLUDataLimits()
+        {
+            return new GLUHeapData();
+        }
+
+        public GLUTHeapData SetupGLUTDataLimits()
+        {
+            return new GLUTHeapData();
         }
     }
 }
