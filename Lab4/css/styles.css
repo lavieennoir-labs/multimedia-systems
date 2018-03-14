@@ -1,9 +1,14 @@
 body {
  margin: 0px;
+ overflow: hidden;
 }
 
 .fullscreen {
   position:absolute;
   width: 100%;
   height: 100%;
+}
+
+.hidden {
+	display: none;
 }
