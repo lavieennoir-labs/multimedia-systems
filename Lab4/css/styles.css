@@ -1,0 +1,22 @@
+body {
+ margin: 0px;
+ overflow: hidden;
+}
+
+.fullscreen {
+  position:absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.hidden {
+	display: none;
+}
+
+.control {
+	height: 72px;
+	background-color: #1a84f1;
+	border: solid 3px #510dff;
+	padding: 8px;
+	margin: 0px;
+}
