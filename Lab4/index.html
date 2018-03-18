@@ -20,11 +20,77 @@
     <script src="js/responsive-canvas.js"></script>
     <script src="js/sprite.js"></script>
     <script src="js/spritesheet.js"></script>
+    <script src="js/static-scene-object.js"></script>
+    <script src="js/animated-scene-object.js"></script>
+    <script src="js/fish.js"></script>
     <script src="js/scene-renderer.js"></script>
     
+    <script>
+      $(document).ready(function () {
+        var sceneRenderer = new SceneRenderer('main-canvas', 'manual', 'freeze');
+        console.log('ok');
+        var cbm = $('#manual')[0];
+        var cbf = $('#freeze')[0];
+        //init buttons
+        if(cbm.checked)
+          document.getElementById("manual-btn").innerHTML = "Автоматичне управління";
+        else
+          document.getElementById("manual-btn").innerHTML = "Ручне управління";
+        if(cbf.checked)
+          document.getElementById("freeze-btn").innerHTML = "Продовжити анімацію";
+        else
+          document.getElementById("freeze-btn").innerHTML = "Зупинити анімацію";
+        //add listeners
+        document.getElementById("manual-btn").onclick = function() {
+          if(cbm.checked) {
+            cbm.checked = false;
+            this.innerHTML = "Ручне управління";
+          }
+          else {
+            cbm.checked = true;
+            this.innerHTML = "Автоматичне управління";
+          }
+          sceneRenderer.initEvents();
+        };
+        document.getElementById("freeze-btn").onclick = function() {
+          if(cbf.checked) {
+            cbf.checked = false;
+            this.innerHTML = "Зупинити анімацію";
+          }
+          else {
+            cbf.checked = true;
+            this.innerHTML = "Продовжити анімацію";
+          }
+          sceneRenderer.initEvents();
+        };
+        document.getElementById("refresh-btn").onclick = function() {
+          sceneRenderer.enableRender = false;
+          sceneRenderer = new SceneRenderer('main-canvas', 'manual', 'freeze');
+        };
+      });
+    </script>
+
     <title>Lab4</title>
   </head>
   <body>
+    <div class="control row">
+      <button class="btn-lg btn btn-light" id="manual-btn">Ручне управління</button>
+      <button class="btn-lg btn btn-light" id="freeze-btn"
+        style="margin: 0px 16px;">Зупинити</button>
+        <button class="btn-lg btn btn-light" id="refresh-btn">Спочатку</button>
+      <div style="display: none;" class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="manual">
+      <label class="form-check-label" for="manual">
+        Ручне управління
+      </label>
+    </div>
+    <div style="display: none;" class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="freeze">
+      <label class="form-check-label" for="freeze">
+        Зупинити
+      </label>
+    </div>
+    </div>
     <div class="fullscreen">
       <canvas id="main-canvas"></canvas>
     </div>

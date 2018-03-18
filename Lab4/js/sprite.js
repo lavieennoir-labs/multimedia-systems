@@ -4,6 +4,9 @@ class SpriteData {
 		this.img
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
+		
+		// width / height
+		this.ratio = spriteWidth / spriteHeight;
 
 		//get short filename
 		this.id = path.split("/");

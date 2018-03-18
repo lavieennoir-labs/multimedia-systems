@@ -4,8 +4,11 @@ class SpriteSheetData {
 		this.spriteCount = spriteCount;
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
+		
+		// width / height
+		this.ratio = spriteWidth / spriteHeight;
 
-		//get short filename
+		// get short filename
 		this.id = path.split("/");
 		this.id = this.id[this.id.length-1].split(".");
 		this.id = this.id[0];
