@@ -281,7 +281,11 @@ class SceneRenderer {
 		thisRef.ctx.fillStyle = "orange";
 		thisRef.ctx.textAlign = "center";
 
-		thisRef.ctx.fillText(text, textFrames[thisRef.textFrame].x, textFrames[thisRef.textFrame].y);
+		if(thisRef.fish.turnedRight)
+			thisRef.ctx.fillText(text, textFrames[thisRef.textFrame].x, textFrames[thisRef.textFrame].y);
+		else
+			thisRef.ctx.fillText(text, -textFrames[thisRef.textFrame].x, textFrames[thisRef.textFrame].y);
+
 		thisRef.textFrame ++;
 		if(thisRef.textFrame >= textFrames.length)
 			thisRef.textFrame = 0;
