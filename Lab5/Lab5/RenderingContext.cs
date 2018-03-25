@@ -14,6 +14,7 @@ namespace Lab5
 {
     class RenderingContext : IRenderingContext
     {
+        public Form1 Parent { get; set; }
         public PolygonMode PolyMode = PolygonMode.LINE;
         public ShadingModel SmoothMode = ShadingModel.FLAT;
         public bool UseOrthoProjection = true;
@@ -53,11 +54,23 @@ namespace Lab5
             //upadte size
             width = contextWidth;
             height = contextHeight;
-
             glMethod.Viewport(0, 0, (uint)contextWidth, (uint)contextHeight);
 
             gl.ClearColor(1.0f, 1.0f, 1.0f, 0.5f);
             gl.ClearDepth(1.0f);
+
+            gl.Enable(Capability.LIGHTING);
+            gl.Enable(Capability.LIGHT0);
+            gl.Enable(Capability.COLOR_MATERIAL);
+            //gl.Lightfv(LightName.LIGHT0, LightParameter.SPECULAR, new float[] { 1f, 1f, 1f, 1f });
+            //gl.Lightfv(LightName.LIGHT0, LightParameter.AMBIENT, new float[] { 0, 0, 0, 1 });
+            gl.Lightfv(LightName.LIGHT0, LightParameter.DIFFUSE, new float[] { 1, 1, 1, 1 });
+            gl.Lightfv(LightName.LIGHT0, LightParameter.POSITION, new float[] { 1, 1, 1, 0 });
+            //gl.LightModelf(LightModelParams.LIGHT_MODEL_AMBIENT, new float[] { 0.2f, 0.2f, 0.2f, 1 });
+
+            //gl.Materialfv(FacingMode.FRONT_AND_BACK, LightParameter.SPECULAR, new float[] { 1, 1, 1, 1 });
+            
+
             gl.Enable(Capability.DEPTH_TEST);
             gl.DepthFunc(AlphaFunction.LEQUAL);
             gl.Hint(HintTarget.PERSPECTIVE_CORRECTION_HINT, HintMode.NICEST);
@@ -78,9 +91,74 @@ namespace Lab5
             gl.MatrixMode(MatrixMode.MODELVIEW);                         // Select The Modelview Matrix
             gl.LoadIdentity();
 
+            //gl.ColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
+            //gl.Enable(Capability.COLOR_MATERIAL);
+
             //FitOrtho();
             //glMethod.Ortho(MinX, MaxX, MinY, MaxY, -1, 1);
+
+
+            InitMenu();
         }
+
+        void InitMenu()
+        {
+            var polyModeMenu = glutMethod.CreateMenu(new GLUT.MenuFunction(
+                (selectedItem) =>
+                {
+                    switch (selectedItem)
+                    {
+                        case 1:
+                            PolyMode = PolygonMode.LINE;
+                            break;
+                        case 2:
+                            PolyMode = PolygonMode.FILL;
+                            break;
+                    }
+                    glutMethod.PostRedisplay();
+                }
+            ));
+            glutMethod.AddMenuEntry("Каркасні", 1);
+            glutMethod.AddMenuEntry("Зафарбовані грані", 2);
+            var projModeMenu = glutMethod.CreateMenu(new GLUT.MenuFunction(
+                (selectedItem) =>
+                {
+                    switch (selectedItem)
+                    {
+                        case 1:
+                            UseOrthoProjection = true;
+                            break;
+                        case 2:
+                            UseOrthoProjection = false;
+                            break;
+                    }
+                    glutMethod.PostRedisplay();
+                }
+            ));
+            glutMethod.AddMenuEntry("Каркасні", 1);
+            glutMethod.AddMenuEntry("Зафарбовані грані", 2);
+            var mainMenu = glutMethod.CreateMenu(new GLUT.MenuFunction(
+                (selectedItem) =>
+                {
+                    switch (selectedItem)
+                    {
+                        case 3:
+                            Parent.btnClear_Click(this, EventArgs.Empty);
+                            break;
+                        case 4:
+                            Parent.btnAdd_Click(this, EventArgs.Empty);
+                            break;
+                    }
+                    glutMethod.PostRedisplay();
+                }
+            ));
+            glutMethod.AddMenuEntry("Відображення об'єктів", polyModeMenu);
+            glutMethod.AddMenuEntry("Проекція", projModeMenu);
+            glutMethod.AddMenuEntry("Очистити сцену", 3);
+            glutMethod.AddMenuEntry("Додати фігуру", 4);
+            glutMethod.AttachMenu(Button.RIGHT_BUTTON);
+        }
+
         public void Render(GL gl, GLU glu, GLUT glut, int contextWidth, int contextHeight)
         {
 
@@ -88,6 +166,7 @@ namespace Lab5
             gl.LoadIdentity();
             gl.ShadeModel(SmoothMode);
             gl.PolygonMode(FacingMode.FRONT_AND_BACK, PolyMode);
+            
 
             if (GridResized)
             {

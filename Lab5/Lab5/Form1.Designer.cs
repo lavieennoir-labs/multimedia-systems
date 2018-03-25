@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbPolyMode = new System.Windows.Forms.GroupBox();
             this.rbPolyModeFill = new System.Windows.Forms.RadioButton();
             this.rbPolyModeLine = new System.Windows.Forms.RadioButton();
@@ -40,9 +41,19 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.openGLControl = new OpenGLWinControl.OpenGLControl();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.відображенняОбєктівToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.каркасніToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зафарбованіГраніToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.проекціяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ортогональнаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.перспективнаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.очиститиСценуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.додатиФігуруToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbPolyMode.SuspendLayout();
             this.gbSmoothMode.SuspendLayout();
             this.gbProjection.SuspendLayout();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbPolyMode
@@ -56,6 +67,7 @@
             this.gbPolyMode.TabIndex = 1;
             this.gbPolyMode.TabStop = false;
             this.gbPolyMode.Text = "Відображення об\'єктів";
+            this.gbPolyMode.Visible = false;
             // 
             // rbPolyModeFill
             // 
@@ -129,6 +141,7 @@
             this.gbProjection.TabIndex = 1;
             this.gbProjection.TabStop = false;
             this.gbProjection.Text = "Проекція";
+            this.gbProjection.Visible = false;
             // 
             // rbProjectionPerspective
             // 
@@ -163,6 +176,7 @@
             this.btnClear.TabIndex = 2;
             this.btnClear.Text = "Очистити сцену";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Visible = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnAdd
@@ -174,6 +188,7 @@
             this.btnAdd.TabIndex = 2;
             this.btnAdd.Text = "Додати фігуру";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Visible = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // openGLControl
@@ -183,12 +198,83 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.openGLControl.AutoRefresh = true;
             this.openGLControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.openGLControl.ContextMenuStrip = this.contextMenu;
             this.openGLControl.Location = new System.Drawing.Point(12, 12);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.RefreshInterval = 33;
             this.openGLControl.RenderingContext = null;
-            this.openGLControl.Size = new System.Drawing.Size(516, 287);
+            this.openGLControl.Size = new System.Drawing.Size(660, 287);
             this.openGLControl.TabIndex = 0;
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.відображенняОбєктівToolStripMenuItem,
+            this.проекціяToolStripMenuItem,
+            this.очиститиСценуToolStripMenuItem,
+            this.додатиФігуруToolStripMenuItem});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(199, 92);
+            // 
+            // відображенняОбєктівToolStripMenuItem
+            // 
+            this.відображенняОбєктівToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.каркасніToolStripMenuItem,
+            this.зафарбованіГраніToolStripMenuItem});
+            this.відображенняОбєктівToolStripMenuItem.Name = "відображенняОбєктівToolStripMenuItem";
+            this.відображенняОбєктівToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.відображенняОбєктівToolStripMenuItem.Text = "Відображення об\'єктів";
+            // 
+            // каркасніToolStripMenuItem
+            // 
+            this.каркасніToolStripMenuItem.Name = "каркасніToolStripMenuItem";
+            this.каркасніToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.каркасніToolStripMenuItem.Text = "Каркасні";
+            this.каркасніToolStripMenuItem.Click += new System.EventHandler(this.rbPolyModeLine_CheckedChanged);
+            // 
+            // зафарбованіГраніToolStripMenuItem
+            // 
+            this.зафарбованіГраніToolStripMenuItem.Name = "зафарбованіГраніToolStripMenuItem";
+            this.зафарбованіГраніToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.зафарбованіГраніToolStripMenuItem.Text = "Зафарбовані грані";
+            this.зафарбованіГраніToolStripMenuItem.Click += new System.EventHandler(this.rbPolyModeFill_CheckedChanged);
+            // 
+            // проекціяToolStripMenuItem
+            // 
+            this.проекціяToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ортогональнаToolStripMenuItem,
+            this.перспективнаToolStripMenuItem});
+            this.проекціяToolStripMenuItem.Name = "проекціяToolStripMenuItem";
+            this.проекціяToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.проекціяToolStripMenuItem.Text = "Проекція";
+            // 
+            // ортогональнаToolStripMenuItem
+            // 
+            this.ортогональнаToolStripMenuItem.Name = "ортогональнаToolStripMenuItem";
+            this.ортогональнаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ортогональнаToolStripMenuItem.Text = "Ортогональна";
+            this.ортогональнаToolStripMenuItem.Click += new System.EventHandler(this.rbProjectionOrtho_CheckedChanged);
+            // 
+            // перспективнаToolStripMenuItem
+            // 
+            this.перспективнаToolStripMenuItem.Name = "перспективнаToolStripMenuItem";
+            this.перспективнаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.перспективнаToolStripMenuItem.Text = "Перспективна";
+            this.перспективнаToolStripMenuItem.Click += new System.EventHandler(this.rbProjectionPerspective_CheckedChanged);
+            // 
+            // очиститиСценуToolStripMenuItem
+            // 
+            this.очиститиСценуToolStripMenuItem.Name = "очиститиСценуToolStripMenuItem";
+            this.очиститиСценуToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.очиститиСценуToolStripMenuItem.Text = "Очистити сцену";
+            this.очиститиСценуToolStripMenuItem.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // додатиФігуруToolStripMenuItem
+            // 
+            this.додатиФігуруToolStripMenuItem.Name = "додатиФігуруToolStripMenuItem";
+            this.додатиФігуруToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.додатиФігуруToolStripMenuItem.Text = "Додати фігуру";
+            this.додатиФігуруToolStripMenuItem.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // Form1
             // 
@@ -210,6 +296,7 @@
             this.gbSmoothMode.PerformLayout();
             this.gbProjection.ResumeLayout(false);
             this.gbProjection.PerformLayout();
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -228,6 +315,15 @@
         private System.Windows.Forms.RadioButton rbProjectionOrtho;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem відображенняОбєктівToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem каркасніToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зафарбованіГраніToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem проекціяToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ортогональнаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem перспективнаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem очиститиСценуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem додатиФігуруToolStripMenuItem;
     }
 }
 

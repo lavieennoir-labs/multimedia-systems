@@ -34,9 +34,10 @@ namespace Lab5
                         Color = Color.Red,
                         BaseRadius = 2,
                         TopRadius = 1,
-                        Height = 2                     
+                        Height = 2
                     }
-                }
+                },
+                Parent = this
             };
             openGLControl.RenderingContext = renderingContext;
             
@@ -89,13 +90,13 @@ namespace Lab5
             context.GridResized = true;
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        public void btnClear_Click(object sender, EventArgs e)
         {
             (openGLControl.RenderingContext as RenderingContext).
                 Figures.Clear();
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        public void btnAdd_Click(object sender, EventArgs e)
         {
             var form = new FigureInputForm();
                 form.Show();
