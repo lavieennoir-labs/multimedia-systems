@@ -103,5 +103,52 @@ namespace Lab6
             meshGroup.Children.Remove(SelectedSphere.Geometry);
             spheres.Remove(SelectedSphere);
         }
+
+        bool dragging = false;
+        private void viewport_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed)
+                return;
+            Point location = Mouse.GetPosition(viewport);
+            HitTestResult hit = VisualTreeHelper.HitTest(viewport, location);
+            var meshHit = hit as RayMeshGeometry3DHitTestResult;
+            var sphere = spheres.Where(s => s.Geometry.Equals(meshHit.ModelHit)).FirstOrDefault();
+            if (sphere == null) // if Model3D object weren't touched 
+                e.Handled = true;
+            else
+            {
+                if (sphere.Timer.Enabled == true)
+                    return;
+                SelectedSphere = sphere;
+                dragging = true;
+            }
+        }
+
+        private void viewport_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            dragging = false;
+        }
+
+        private void viewport_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!dragging)
+                return;
+
+            //get angle
+            Point location = Mouse.GetPosition(viewport);
+            location.X -= viewport.ActualWidth / 2.0;
+            location.Y -= viewport.ActualHeight / 2.0;
+            double mouseRadius = Math.Sqrt(location.X * location.X + location.Y * location.Y);
+            double ratio = Math.Acos(location.X / mouseRadius);
+            if (location.Y >= 0)
+                SelectedSphere.Angle = -ratio / Math.PI * 180;
+            else
+                SelectedSphere.Angle = ratio / Math.PI * 180;
+        }
+
+        private void viewport_MouseLeave(object sender, MouseEventArgs e)
+        {
+            dragging = false;
+        }
     }
 }

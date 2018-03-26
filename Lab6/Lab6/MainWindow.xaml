@@ -29,7 +29,7 @@
                 Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"/>
         </Grid>
         <Grid Grid.Row="0" Grid.RowSpan="2">
-            <Viewport3D ContextMenuOpening="Viewport3D_ContextMenuOpening" Name="viewport">
+            <Viewport3D MouseDown="viewport_MouseDown" MouseLeave="viewport_MouseLeave" MouseUp="viewport_MouseUp" MouseMove="viewport_MouseMove" ContextMenuOpening="Viewport3D_ContextMenuOpening" Name="viewport">
                 <Viewport3D.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Змінити колір" Click="ChangeColor"/>
